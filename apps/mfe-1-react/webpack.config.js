@@ -7,6 +7,7 @@ const isProduction = process.argv.indexOf('-p') >= 0 || process.env.NODE_ENV ===
 
 // plugins
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { ModuleFederationPlugin }  = require('webpack').container;
 
 module.exports = {
   mode: 'development',
@@ -14,6 +15,7 @@ module.exports = {
   output: {
     path: outPath,
     publicPath: 'auto',
+    uniqueName: 'mfe-1-react'
   },
   target: 'web',
   resolve: {
@@ -48,10 +50,20 @@ module.exports = {
         keywords: Array.isArray(packageJson.keywords) ? packageJson.keywords.join(',') : undefined
       }
     }),
+    new ModuleFederationPlugin({
+      name: "mfeReact",
+      filename: "remoteEntry.js",
+      exposes: {
+        "./App": "./app/App"
+      },
+    }),
   ],
   devServer: {
     open: true,
-    port: 4001
+    port: 4001,
+    headers: {
+      "Access-Control-Allow-Origin": "http://localhost:4000"
+    },
   },
   // https://webpack.js.org/configuration/devtool/
   devtool: isProduction ? 'hidden-source-map' : 'eval-source-map'
