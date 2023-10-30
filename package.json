@@ -1,7 +1,16 @@
 {
-  "name": "mf-playground",
+  "name": "mfe-playground",
   "version": "0.0.0",
   "scripts": {
-    "shell:start": "cd apps/shell && npm start"
+    "start:all": "concurrently --kill-others \"npm run start:shell\" \"npm run start:mfe-1-react\"",
+    "deps:all": "npm-run-all --parallel deps:shell deps:mfe-1-react",
+    "start:shell": "cd apps/shell && npm start",
+    "start:mfe-1-react": "cd apps/mfe-1-react && npm start",
+    "deps:shell": "cd apps/shell && npm i",
+    "deps:mfe-1-react": "cd apps/mfe-1-react && npm i"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "npm-run-all": "^4.1.5"
   }
 }
