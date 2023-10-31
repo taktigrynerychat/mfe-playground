@@ -7,7 +7,7 @@ const isProduction = process.argv.indexOf('-p') >= 0 || process.env.NODE_ENV ===
 
 // plugins
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { ModuleFederationPlugin }  = require('webpack').container;
+const {ModuleFederationPlugin} = require('webpack').container;
 
 module.exports = {
   mode: 'development',
@@ -30,7 +30,7 @@ module.exports = {
         exclude: /node_modules/,
       },
       // static assets
-      { test: /\.html$/, use: 'html-loader' },
+      {test: /\.html$/, use: 'html-loader'},
     ]
   },
   plugins: [
@@ -56,6 +56,16 @@ module.exports = {
       exposes: {
         "./App": "./app/App"
       },
+      shared: {
+        "react": {
+          singleton: true,
+          eager: true
+        },
+        "react-dom": {
+          singleton: true,
+          eager: true
+        }
+      }
     }),
   ],
   devServer: {

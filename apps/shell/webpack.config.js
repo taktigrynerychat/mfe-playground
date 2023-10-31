@@ -1,5 +1,4 @@
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
-const { ProvidePlugin }  = require('webpack');
 const dependencies = require("./package.json").dependencies;
 
 module.exports = {
@@ -11,9 +10,6 @@ module.exports = {
     runtimeChunk: false
   },
   plugins: [
-    new ProvidePlugin({
-      "React": "react",
-    }),
     new ModuleFederationPlugin({
       remotes: {
         'mfeReact': 'mfeReact@http://localhost:4001/remoteEntry.js',
@@ -34,6 +30,18 @@ module.exports = {
           version: dependencies['@angular/router'],
           requiredVersion: dependencies['@angular/router'],
           singleton: false,
+          eager: true
+        },
+        'react': {
+          version: dependencies['react'],
+          requiredVersion: dependencies['react'],
+          singleton: true,
+          eager: true
+        },
+        'react-dom': {
+          version: dependencies['react-dom'],
+          requiredVersion: dependencies['react-dom'],
+          singleton: true,
           eager: true
         },
       }

@@ -39,7 +39,7 @@ async function lookupExposedRemote<T>(
 ): Promise<T> {
   // Initializes the share scope. This fills it with known provided modules from this build and all remotes
   await __webpack_init_sharing__('default');
-  const container = window[remoteName];
+  const container: Container = window[remoteName];
 
   await container.init(__webpack_share_scopes__.default);
   const factory = await container.get(exposedModule);

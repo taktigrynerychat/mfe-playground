@@ -1,1 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
+
+.mfe {
+  display: block;
+  border-width: 2px;
+  border-style: dashed;
+  padding: 15px 10px;
+  position: relative;
+
+  &[data-framework]::before {
+    content: attr(data-framework);
+    text-transform: capitalize;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  &[data-framework="react"] {
+    border-color: #00549a;
+  }
+
+  &[data-framework="angular"] {
+    border-color: #790011;
+  }
+}

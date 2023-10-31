@@ -6,18 +6,10 @@ import { loadRemoteModule } from '../utils/module-federation';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
-  title = 'shell';
-
-  ngOnInit(): void {
-    try {
-      loadRemoteModule({
-        remoteName: 'mfeReact',
-        exposedModule: './App',
-        remoteEntry: 'http://localhost:4001/remoteEntry.js'
-      })
-    } catch (e) {
-      console.log(e)
-    }
+export class AppComponent {
+  props = {name: 'Vlad'};
+  counter = 0;
+  public updateName(): void {
+    this.props = { name: `Vlad ${++this.counter}`};
   }
 }
