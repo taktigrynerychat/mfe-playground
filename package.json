@@ -2,7 +2,7 @@
   "name": "mfe-playground",
   "version": "0.0.0",
   "scripts": {
-    "start:all": "concurrently --kill-others \"npm run start:shell\" \"npm run start:mfe-1-react\"",
+    "start:all": "concurrently --kill-others \"npm run start:shell\" \"npm run start:mfe-1-react\" \"npm run start:mfe-2-angular\"",
     "deps:all": "npm-run-all --parallel deps:shell deps:mfe-1-react",
     "start:shell": "cd apps/shell && npm start",
     "start:mfe-1-react": "cd apps/mfe-1-react && npm start",

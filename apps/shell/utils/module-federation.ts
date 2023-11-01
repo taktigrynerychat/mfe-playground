@@ -62,3 +62,8 @@ export async function loadRemoteModule<T = any>(
     options.exposedModule
   );
 }
+
+export interface FederationPluginMetadata extends LoadRemoteModuleOptions {
+  element: string
+}
+

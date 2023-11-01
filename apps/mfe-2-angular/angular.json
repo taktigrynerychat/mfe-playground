@@ -90,6 +90,7 @@
         "serve": {
           "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
+            "publicHost": "http://localhost:4002",
             "port": 4002
           },
           "configurations": {

@@ -1,12 +1,8 @@
 import { AfterViewInit, Directive, ElementRef, HostBinding, inject, Input, OnDestroy } from '@angular/core';
-import { loadRemoteModule, LoadRemoteModuleOptions } from '../../../utils/module-federation';
+import { FederationPluginMetadata, loadRemoteModule } from './module-federation';
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { createRoot } from 'react-dom/client';
-
-export interface FederationPluginMetadata extends LoadRemoteModuleOptions {
-  element: string
-}
 
 @Directive()
 export abstract class MfeReactComponent<Props extends Record<string, unknown> = never> implements AfterViewInit, OnDestroy {

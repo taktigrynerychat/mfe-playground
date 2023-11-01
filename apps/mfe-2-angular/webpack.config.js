@@ -21,20 +21,18 @@ module.exports = {
       shared: {
         '@angular/common': {
           version: dependencies['@angular/common'],
-          singleton: false,
-          eager: true
+          requiredVersion: dependencies['@angular/common'],
+          singleton: true,
         },
         '@angular/core': {
           version: dependencies['@angular/core'],
           requiredVersion: dependencies['@angular/core'],
-          singleton: false,
-          eager: true
+          singleton: true,
         },
         '@angular/router': {
           version: dependencies['@angular/router'],
           requiredVersion: dependencies['@angular/router'],
-          singleton: false,
-          eager: true
+          singleton: true,
         },
       }
     })

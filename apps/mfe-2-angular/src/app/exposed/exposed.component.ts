@@ -9,5 +9,4 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./exposed.component.scss']
 })
 export class ExposedComponent {
-
 }

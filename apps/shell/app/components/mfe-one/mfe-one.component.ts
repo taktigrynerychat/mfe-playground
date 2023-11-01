@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FederationPluginMetadata, MfeReactComponent } from '../mfe-react-component/mfe-react-component';
+import { MfeReactComponent } from '../../../utils/mfe-react-component';
+import { FederationPluginMetadata } from '../../../utils/module-federation';
 
 @Component({
   selector: 'app-mfe-one',
@@ -11,7 +12,7 @@ import { FederationPluginMetadata, MfeReactComponent } from '../mfe-react-compon
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MfeOneComponent extends MfeReactComponent<{name: string}> {
-  readonly configuration: FederationPluginMetadata = {
+  public readonly configuration: FederationPluginMetadata = {
     element: 'App',
     remoteName: 'mfeReact',
     exposedModule: 'App',
