@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -9,4 +9,9 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./exposed.component.scss']
 })
 export class ExposedComponent {
+  @Input()
+  public readonly name!: string;
+
+  @Output()
+  public readonly onClick = new EventEmitter<any>
 }

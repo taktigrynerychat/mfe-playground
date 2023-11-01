@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { loadRemoteModule } from '../utils/module-federation';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,9 +6,13 @@ import { loadRemoteModule } from '../utils/module-federation';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  props = {name: 'Vlad'};
+  props = {name: 'Vlad', surname: 'Rusakov'};
   counter = 0;
   public updateName(): void {
-    this.props = { name: `Vlad ${++this.counter}`};
+    this.props = { ...this.props, name: `Vlad ${++this.counter}`};
+  }
+
+  onOutput(event: any): void {
+    console.log(event);
   }
 }
