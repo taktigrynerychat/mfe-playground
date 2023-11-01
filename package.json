@@ -6,8 +6,10 @@
     "deps:all": "npm-run-all --parallel deps:shell deps:mfe-1-react",
     "start:shell": "cd apps/shell && npm start",
     "start:mfe-1-react": "cd apps/mfe-1-react && npm start",
+    "start:mfe-2-angular": "cd apps/mfe-2-angular && npm start",
     "deps:shell": "cd apps/shell && npm i",
-    "deps:mfe-1-react": "cd apps/mfe-1-react && npm i"
+    "deps:mfe-1-react": "cd apps/mfe-1-react && npm i",
+    "deps:mfe-2-angular": "cd apps/mfe-2-angular && npm i"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",

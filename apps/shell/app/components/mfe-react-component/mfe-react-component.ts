@@ -62,7 +62,7 @@ export abstract class MfeReactComponent<Props extends Record<string, unknown> = 
     this.render(props);
   }
 
-  private render(props: Record<string, unknown>): void {
+  private render(props: Props): void {
     const reactElement = React.createElement(this._mfeModule, { ...(props ?? {}) })
     this._root.render(reactElement);
   }

@@ -3,18 +3,18 @@ import { CommonModule } from '@angular/common';
 import { FederationPluginMetadata, MfeReactComponent } from '../mfe-react-component/mfe-react-component';
 
 @Component({
-  selector: 'app-mfe-one-component',
+  selector: 'app-mfe-one',
   standalone: true,
   imports: [CommonModule],
   template: '',
-  styleUrls: ['./mfe-one-component.component.scss'],
+  styleUrls: ['./mfe-one.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MfeOneComponentComponent extends MfeReactComponent<{name: string}> {
+export class MfeOneComponent extends MfeReactComponent<{name: string}> {
   readonly configuration: FederationPluginMetadata = {
     element: 'App',
     remoteName: 'mfeReact',
-    exposedModule: './App',
+    exposedModule: 'App',
     remoteEntry: 'http://localhost:4001/remoteEntry.js'
   };
 }

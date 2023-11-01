@@ -3,17 +3,20 @@ const dependencies = require("./package.json").dependencies;
 
 module.exports = {
   output: {
-    uniqueName: "shell",
-    publicPath: "auto"
+    uniqueName: "mfeAngular",
+    publicPath: "auto",
+    scriptType: 'text/javascript'
   },
   optimization: {
     runtimeChunk: false
   },
   plugins: [
     new ModuleFederationPlugin({
-      remotes: {
-        mfeReact: 'mfeReact@http://localhost:4001/remoteEntry.js',
-        mfeAngular: 'mfeAngular@http://localhost:4002/remoteEntry.js',
+      name: "mfeAngular",
+      filename: "remoteEntry.js",
+      library: {type: "var", name: "mfeAngular"},
+      exposes: {
+        ExposedComponent: "./src/app/exposed/exposed.component"
       },
       shared: {
         '@angular/common': {
@@ -31,18 +34,6 @@ module.exports = {
           version: dependencies['@angular/router'],
           requiredVersion: dependencies['@angular/router'],
           singleton: false,
-          eager: true
-        },
-        'react': {
-          version: dependencies['react'],
-          requiredVersion: dependencies['react'],
-          singleton: true,
-          eager: true
-        },
-        'react-dom': {
-          version: dependencies['react-dom'],
-          requiredVersion: dependencies['react-dom'],
-          singleton: true,
           eager: true
         },
       }
