@@ -1,8 +1,9 @@
 import { AfterViewInit, Directive, ElementRef, HostBinding, inject, Input, OnDestroy } from '@angular/core';
 import { FederationPluginMetadata, loadRemoteModule } from './module-federation';
-import React from 'react'
-import ReactDOM from 'react-dom'
+import * as React from 'react'
+import * as ReactDOM from 'react-dom'
 import { createRoot, Root } from 'react-dom/client';
+import { FunctionComponent } from 'react';
 
 @Directive()
 export abstract class MfeReactComponent<Props extends Record<string, unknown> = never> implements AfterViewInit, OnDestroy {
@@ -12,7 +13,7 @@ export abstract class MfeReactComponent<Props extends Record<string, unknown> = 
   private readonly _root: Root = createRoot(this._hostRef.nativeElement);
 
   private _props!: Props;
-  private _mfeModule!: any;
+  private _mfeComponent!: FunctionComponent<Props> | undefined;
 
   @HostBinding('class.mfe') private readonly _mfe: boolean = true;
   @HostBinding('attr.data-framework') private readonly _framework: string = 'react';
@@ -21,7 +22,7 @@ export abstract class MfeReactComponent<Props extends Record<string, unknown> = 
   public set props(props: Props) {
     this._props = props;
 
-    if (this._mfeModule) {
+    if (this._mfeComponent) {
       this.render(props);
     }
   }
@@ -49,7 +50,7 @@ export abstract class MfeReactComponent<Props extends Record<string, unknown> = 
       exposedModule
     } = config;
 
-    this._mfeModule = (await loadRemoteModule({
+    this._mfeComponent = (await loadRemoteModule({
       remoteEntry,
       remoteName,
       exposedModule,
@@ -59,7 +60,7 @@ export abstract class MfeReactComponent<Props extends Record<string, unknown> = 
   }
 
   private render(props: Props): void {
-    const reactElement = React.createElement(this._mfeModule, { ...(props ?? {}) })
+    const reactElement = React.createElement(this._mfeComponent!, { ...(props ?? {}) })
     this._root.render(reactElement);
   }
 

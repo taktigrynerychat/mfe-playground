@@ -1,17 +1,14 @@
 import {
   ChangeDetectionStrategy,
-  Component, ViewChild, ViewContainerRef,
+  Component, EventEmitter, ViewChild, ViewContainerRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FederationPluginMetadata } from '../../../utils/module-federation';
 import { MfeAngularComponent } from '../../../utils/mfe-angular-component';
 
-export type MfeTwoInputs = {
+export type MfeTwoTargetComponent = {
   name: string;
-}
-
-export type MfeTwoOutputs = {
-  onClick: { custom: number },
+  onClick: EventEmitter<{ custom: number }>
 }
 
 @Component({
@@ -22,7 +19,7 @@ export type MfeTwoOutputs = {
   styleUrls: ['./mfe-two.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MfeTwoComponent extends MfeAngularComponent<MfeTwoInputs, MfeTwoOutputs> {
+export class MfeTwoComponent extends MfeAngularComponent<MfeTwoTargetComponent> {
   public readonly configuration: FederationPluginMetadata = {
     remoteEntry: 'http://localhost:4002/remoteEntry.js',
     remoteName: 'mfeAngular',

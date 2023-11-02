@@ -8,12 +8,18 @@ import { FederationPluginMetadata, loadRemoteModule } from './module-federation'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { map, merge, Observable, tap } from 'rxjs';
 
-export type MfeAngularOutputs<T extends Record<string, unknown>> = {
-  [K in keyof T]: { type: K; value: T[K] };
+export type MfeAngularInputs<T> = {
+  [K in keyof T as T[K] extends EventEmitter<unknown> ? never : K]?: T[K]
+}
+
+export type MfeAngularOutputs<T> = {
+  [K in keyof T]: T[K] extends EventEmitter<infer E> ? { type: K, value: E } : never;
 }[keyof T];
 
+type ComponentProps = Record<string, unknown>;
+
 @Directive()
-export abstract class MfeAngularComponent<Inputs extends Record<string, unknown>, Outputs extends Record<string, unknown>> implements AfterViewInit {
+export abstract class MfeAngularComponent<Component extends ComponentProps> implements AfterViewInit {
   abstract configuration: FederationPluginMetadata;
   abstract viewContainerRef: ViewContainerRef;
   private readonly _destroyRef: DestroyRef = inject(DestroyRef);
@@ -21,21 +27,24 @@ export abstract class MfeAngularComponent<Inputs extends Record<string, unknown>
   @HostBinding('class.mfe') private readonly _mfe: boolean = true;
   @HostBinding('attr.data-framework') private readonly _framework: string = 'angular';
 
-  private _mfeModule: any;
-  private _componentRef!: ComponentRef<Record<string, unknown>>;
-  private _componentMetadata!: ComponentMirror<unknown> | null;
-  private _inputs!: Inputs;
+  private _mfeComponent!: new () => Component;
+  private _componentRef!: ComponentRef<Component>;
+  private _componentMetadata!: ComponentMirror<Component> | null;
+  private _inputs!: MfeAngularInputs<Component>;
 
-  @Output() outputs: EventEmitter<MfeAngularOutputs<Outputs>> = new EventEmitter();
+  @Output() outputs: EventEmitter<MfeAngularOutputs<Component>> = new EventEmitter();
 
   @Input()
-  public set inputs(inputs: Inputs) {
+  public set inputs(inputs: MfeAngularInputs<Component>) {
     this._inputs = inputs;
     this.setInputs();
   }
-
-  public get inputs(): Inputs {
+  public get inputs(): MfeAngularInputs<Component> {
     return this._inputs;
+  }
+
+  private get componentInstance(): Component {
+    return this._componentRef?.instance;
   }
 
   public ngAfterViewInit(): void {
@@ -53,7 +62,7 @@ export abstract class MfeAngularComponent<Inputs extends Record<string, unknown>
       exposedModule
     } = config;
 
-    this._mfeModule = (await loadRemoteModule({
+    this._mfeComponent = (await loadRemoteModule({
       remoteEntry,
       remoteName,
       exposedModule,
@@ -64,17 +73,17 @@ export abstract class MfeAngularComponent<Inputs extends Record<string, unknown>
 
   private render(): void {
     this.viewContainerRef.clear();
-    this._componentRef = this.viewContainerRef.createComponent(this._mfeModule);
-    this._componentMetadata = reflectComponentType(this._mfeModule);
+    this._componentRef = this.viewContainerRef.createComponent(this._mfeComponent);
+    this._componentMetadata = reflectComponentType(this._mfeComponent);
     this.setInputs();
     this.registerOutputs();
   }
 
   private setInputs(): void {
-    if (this._componentRef?.instance && this._inputs) {
+    if (this.componentInstance && this._inputs) {
       Object.entries(this._inputs).forEach(([key, value]) => {
         if (this._componentMetadata?.inputs.some((input) => input.propName === key)) {
-          this._componentRef.instance[key] = value;
+          (this.componentInstance as ComponentProps)[key] = value;
         } else {
           console.warn(`There is no "${key}" property in the target ${this.configuration.element}`);
         }
@@ -86,11 +95,11 @@ export abstract class MfeAngularComponent<Inputs extends Record<string, unknown>
   private registerOutputs(): void {
     if (this._componentMetadata?.outputs) {
       const sources$ = this._componentMetadata.outputs.reduce((acc, { propName }) => {
-        const property = this._componentRef.instance[propName];
+        const property = this.componentInstance[propName];
         return this.isEventEmitter(property)
-          ? [...acc, property.asObservable().pipe(map(value => ({ type: propName, value } as MfeAngularOutputs<Outputs>)))]
+          ? [...acc, property.asObservable().pipe(map(value => ({ type: propName, value } as MfeAngularOutputs<Component>)))]
           : acc;
-      }, [] as Observable<MfeAngularOutputs<Outputs>>[]);
+      }, [] as Observable<MfeAngularOutputs<Component>>[]);
 
       merge(...sources$)
         .pipe(
