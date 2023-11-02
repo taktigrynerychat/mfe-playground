@@ -71,11 +71,11 @@ export abstract class MfeAngularComponent implements AfterViewInit {
       Object.entries(this._inputs).forEach(([key, value]) => {
         if (this._componentMetadata?.inputs.some((input) => input.propName === key)) {
           this._componentRef.instance[key] = value;
-          this._componentRef.changeDetectorRef.markForCheck();
         } else {
           console.warn(`There is no "${key}" property in the target ${this.configuration.element}`);
         }
       })
+      this._componentRef.changeDetectorRef.markForCheck();
     }
   }
 
@@ -99,8 +99,8 @@ export abstract class MfeAngularComponent implements AfterViewInit {
     }
   }
 
-  private isEventEmitter(instance: unknown): instance is EventEmitter<unknown> {
-    return instance instanceof EventEmitter;
+  private isEventEmitter(property: unknown): property is EventEmitter<unknown> {
+    return property instanceof EventEmitter;
   }
 
 }

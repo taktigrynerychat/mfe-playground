@@ -2,14 +2,14 @@ import { AfterViewInit, Directive, ElementRef, HostBinding, inject, Input, OnDes
 import { FederationPluginMetadata, loadRemoteModule } from './module-federation';
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createRoot } from 'react-dom/client';
+import { createRoot, Root } from 'react-dom/client';
 
 @Directive()
 export abstract class MfeReactComponent<Props extends Record<string, unknown> = never> implements AfterViewInit, OnDestroy {
   abstract configuration: FederationPluginMetadata;
 
-  private readonly _hostRef = inject(ElementRef);
-  private readonly _root = createRoot(this._hostRef.nativeElement);
+  private readonly _hostRef: ElementRef = inject(ElementRef);
+  private readonly _root: Root = createRoot(this._hostRef.nativeElement);
 
   private _props!: Props;
   private _mfeModule!: any;
