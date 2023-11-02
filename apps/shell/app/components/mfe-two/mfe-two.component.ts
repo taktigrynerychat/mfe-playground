@@ -6,6 +6,14 @@ import { CommonModule } from '@angular/common';
 import { FederationPluginMetadata } from '../../../utils/module-federation';
 import { MfeAngularComponent } from '../../../utils/mfe-angular-component';
 
+export type MfeTwoInputs = {
+  name: string;
+}
+
+export type MfeTwoOutputs = {
+  onClick: { custom: number },
+}
+
 @Component({
   selector: 'app-mfe-two',
   standalone: true,
@@ -14,7 +22,7 @@ import { MfeAngularComponent } from '../../../utils/mfe-angular-component';
   styleUrls: ['./mfe-two.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MfeTwoComponent extends MfeAngularComponent {
+export class MfeTwoComponent extends MfeAngularComponent<MfeTwoInputs, MfeTwoOutputs> {
   public readonly configuration: FederationPluginMetadata = {
     remoteEntry: 'http://localhost:4002/remoteEntry.js',
     remoteName: 'mfeAngular',

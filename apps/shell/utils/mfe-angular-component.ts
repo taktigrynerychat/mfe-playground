@@ -8,8 +8,12 @@ import { FederationPluginMetadata, loadRemoteModule } from './module-federation'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { map, merge, Observable, tap } from 'rxjs';
 
+export type MfeAngularOutputs<T extends Record<string, unknown>> = {
+  [K in keyof T]: { type: K; value: T[K] };
+}[keyof T];
+
 @Directive()
-export abstract class MfeAngularComponent implements AfterViewInit {
+export abstract class MfeAngularComponent<Inputs extends Record<string, unknown>, Outputs extends Record<string, unknown>> implements AfterViewInit {
   abstract configuration: FederationPluginMetadata;
   abstract viewContainerRef: ViewContainerRef;
   private readonly _destroyRef: DestroyRef = inject(DestroyRef);
@@ -20,17 +24,17 @@ export abstract class MfeAngularComponent implements AfterViewInit {
   private _mfeModule: any;
   private _componentRef!: ComponentRef<Record<string, unknown>>;
   private _componentMetadata!: ComponentMirror<unknown> | null;
-  private _inputs!: Record<string, any>;
+  private _inputs!: Inputs;
 
-  @Output() outputs: EventEmitter<{ event: string, value: any }> = new EventEmitter();
+  @Output() outputs: EventEmitter<MfeAngularOutputs<Outputs>> = new EventEmitter();
 
   @Input()
-  public set inputs(inputs: Record<string, any>) {
+  public set inputs(inputs: Inputs) {
     this._inputs = inputs;
     this.setInputs();
   }
 
-  public get inputs(): Record<string, any> {
+  public get inputs(): Inputs {
     return this._inputs;
   }
 
@@ -84,9 +88,9 @@ export abstract class MfeAngularComponent implements AfterViewInit {
       const sources$ = this._componentMetadata.outputs.reduce((acc, { propName }) => {
         const property = this._componentRef.instance[propName];
         return this.isEventEmitter(property)
-          ? [...acc, property.asObservable().pipe(map(value => ({ event: propName, value })))]
+          ? [...acc, property.asObservable().pipe(map(value => ({ type: propName, value } as MfeAngularOutputs<Outputs>)))]
           : acc;
-      }, [] as Observable<{event: string, value: unknown}>[]);
+      }, [] as Observable<MfeAngularOutputs<Outputs>>[]);
 
       merge(...sources$)
         .pipe(

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MfeAngularOutputs } from '../utils/mfe-angular-component';
+import { MfeTwoOutputs } from './components/mfe-two/mfe-two.component';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +14,11 @@ export class AppComponent {
     this.props = { ...this.props, name: `Vlad ${++this.counter}`};
   }
 
-  onOutput(event: any): void {
-    console.log(event);
+  onOutput(event: MfeAngularOutputs<MfeTwoOutputs>): void {
+    switch (event.type) {
+      case 'onClick': {
+        console.log(event)
+      }
+    }
   }
 }
