@@ -1,5 +1,5 @@
 import {
-  AfterViewInit, ComponentMirror, ComponentRef, DestroyRef,
+  AfterViewInit, ChangeDetectorRef, ComponentMirror, ComponentRef, DestroyRef,
   Directive, EventEmitter,
   HostBinding, inject, Input, Output, reflectComponentType,
   ViewContainerRef
@@ -9,7 +9,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { map, merge, Observable, tap } from 'rxjs';
 
 export type MfeAngularInputs<T> = {
-  [K in keyof T as T[K] extends EventEmitter<unknown> ? never : K]?: T[K]
+  [K in keyof T as T[K] extends EventEmitter<any> ? never : K]: T[K]
 }
 
 export type MfeAngularOutputs<T> = {
@@ -31,6 +31,7 @@ export abstract class MfeAngularComponent<Component extends ComponentProps> impl
   private _componentRef!: ComponentRef<Component>;
   private _componentMetadata!: ComponentMirror<Component> | null;
   private _inputs!: MfeAngularInputs<Component>;
+  private _cdr!: ChangeDetectorRef;
 
   @Output() outputs: EventEmitter<MfeAngularOutputs<Component>> = new EventEmitter();
 
@@ -74,6 +75,7 @@ export abstract class MfeAngularComponent<Component extends ComponentProps> impl
   private render(): void {
     this.viewContainerRef.clear();
     this._componentRef = this.viewContainerRef.createComponent(this._mfeComponent);
+    this._cdr = this._componentRef.injector.get(ChangeDetectorRef);
     this._componentMetadata = reflectComponentType(this._mfeComponent);
     this.setInputs();
     this.registerOutputs();
@@ -88,7 +90,7 @@ export abstract class MfeAngularComponent<Component extends ComponentProps> impl
           console.warn(`There is no "${key}" property in the target ${this.configuration.element}`);
         }
       })
-      this._componentRef.changeDetectorRef.markForCheck();
+      this._cdr.markForCheck();
     }
   }
 

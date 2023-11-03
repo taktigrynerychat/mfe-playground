@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+$highlight-mfe: #a800ff;
+
 html {
   height: 100%;
   margin: 0;
@@ -10,17 +12,20 @@ body {
 }
 .mfe {
   display: block;
-  border-width: 2px;
-  border-color: #919191;
-  padding: 15px 10px;
+  border: 1px dashed $highlight-mfe;
   position: relative;
-  margin-top: 20px;
 
   &[data-framework]::before {
-    content: attr(data-framework);
+    content: 'mfe: ' attr(data-framework);
     text-transform: capitalize;
     position: absolute;
-    top: 0;
-    left: 0;
+    top: -0.5rem;
+    left: 0.5rem;
+    display: block;
+    background: white;
+    border-radius: 0.5em;
+    padding: 1px 4px;
+    font-size: 0.7rem;
+    border: 1px dashed $highlight-mfe;
   }
 }

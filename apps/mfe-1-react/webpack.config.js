@@ -54,7 +54,8 @@ module.exports = {
       name: "mfeReact",
       filename: "remoteEntry.js",
       exposes: {
-        App: "./app/App"
+        App: "./app/App",
+        Header: "./app/components/Header",
       },
       shared: {
         "react": {

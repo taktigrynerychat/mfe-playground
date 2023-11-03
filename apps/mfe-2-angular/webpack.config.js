@@ -16,7 +16,8 @@ module.exports = {
       filename: "remoteEntry.js",
       library: {type: "var", name: "mfeAngular"},
       exposes: {
-        ExposedComponent: "./src/app/exposed/exposed.component"
+        ExposedComponent: "./src/app/exposed/exposed.component",
+        Counter: "./src/app/components/counter/counter.component",
       },
       shared: {
         '@angular/common': {

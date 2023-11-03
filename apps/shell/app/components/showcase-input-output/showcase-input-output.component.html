@@ -1,0 +1,10 @@
+<div class="counter-control">
+  <button (click)="setAngularCounter(angularCounterProps.count - 1)">-</button>
+  <span>{{angularCounterProps.count}}</span>
+  <button (click)="setAngularCounter(angularCounterProps.count + 1)">+</button>
+</div>
+
+<div class="counters">
+  <app-mfe-angular-counter [inputs]="angularCounterProps" (outputs)="onAngularCounterChange($event)"></app-mfe-angular-counter>
+</div>
+

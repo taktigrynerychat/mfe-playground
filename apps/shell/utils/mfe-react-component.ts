@@ -4,12 +4,14 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { createRoot, Root } from 'react-dom/client';
 import { FunctionComponent } from 'react';
+import { NavigationService } from '../app/services/navigation.service';
 
 @Directive()
 export abstract class MfeReactComponent<Props extends Record<string, unknown> = never> implements AfterViewInit, OnDestroy {
   abstract configuration: FederationPluginMetadata;
 
   private readonly _hostRef: ElementRef = inject(ElementRef);
+  private readonly _navigationService: NavigationService = inject(NavigationService);
   private readonly _root: Root = createRoot(this._hostRef.nativeElement);
 
   private _props!: Props;
@@ -60,7 +62,7 @@ export abstract class MfeReactComponent<Props extends Record<string, unknown> = 
   }
 
   private render(props: Props): void {
-    const reactElement = React.createElement(this._mfeComponent!, { ...(props ?? {}) })
+    const reactElement = React.createElement(this._mfeComponent!, { ...(props ?? {}), navigationService: this._navigationService })
     this._root.render(reactElement);
   }
 
