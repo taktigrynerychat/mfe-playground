@@ -1,7 +1,6 @@
 import { AfterViewInit, Directive, ElementRef, HostBinding, inject, Input, OnDestroy } from '@angular/core';
 import { FederationPluginMetadata, loadRemoteModule } from './module-federation';
 import * as React from 'react'
-import * as ReactDOM from 'react-dom'
 import { createRoot, Root } from 'react-dom/client';
 import { FunctionComponent } from 'react';
 import { NavigationService } from '../app/services/navigation.service';
@@ -40,7 +39,7 @@ export abstract class MfeReactComponent<Props extends Record<string, unknown> = 
   }
 
   public ngOnDestroy(): void {
-    ReactDOM.unmountComponentAtNode(this._hostRef.nativeElement);
+    this._root.unmount();
   }
 
   private async load(config: FederationPluginMetadata, props: Props): Promise<void> {

@@ -56,6 +56,7 @@ module.exports = {
       exposes: {
         App: "./app/App",
         Header: "./app/components/Header",
+        Counter: "./app/components/Counter",
       },
       shared: {
         "react": {

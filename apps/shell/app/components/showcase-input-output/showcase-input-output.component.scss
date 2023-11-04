@@ -1,14 +1,13 @@
 $button-bg: #ffffff;
 
 .showcase-input-output {
-  .counters {
-    margin-top: 20px;
-    display: flex;
-    gap: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  max-width: 440px;
 
-    & > * {
-      padding: 16px;
-    }
+  .counter {
+    padding: 16px;
 
     button {
       cursor: pointer;
@@ -29,6 +28,7 @@ $button-bg: #ffffff;
 
   }
   .counter-control {
+    justify-self: center;
     display: flex;
     align-items: center;
 

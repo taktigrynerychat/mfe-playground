@@ -4,7 +4,14 @@
   <button (click)="setAngularCounter(angularCounterProps.count + 1)">+</button>
 </div>
 
-<div class="counters">
-  <app-mfe-angular-counter [inputs]="angularCounterProps" (outputs)="onAngularCounterChange($event)"></app-mfe-angular-counter>
+<div class="counter-control">
+  <button (click)="setReactCounter(reactCounterProps.count - 1)">-</button>
+  <span>{{reactCounterProps.count}}</span>
+  <button (click)="setReactCounter(reactCounterProps.count + 1)">+</button>
 </div>
+
+<app-mfe-angular-counter class="counter" [inputs]="angularCounterProps" (outputs)="onAngularCounterChange($event)"></app-mfe-angular-counter>
+
+<app-mfe-react-counter  class="counter" [props]="reactCounterProps"></app-mfe-react-counter>
+
 

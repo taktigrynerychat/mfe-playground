@@ -1,10 +1,10 @@
-import { Component, EventEmitter, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MfeAngularComponent } from '../../../../utils/mfe-angular-component';
 import { FederationPluginMetadata } from '../../../../utils/module-federation';
 import { MFE_REGISTRY } from '../../../constants';
 
-export type CounterComponentProps = {
+export type AngularCounterProps = {
   count: number;
   countChange: EventEmitter<number>;
 }
@@ -13,8 +13,9 @@ export type CounterComponentProps = {
   standalone: true,
   template: '<ng-container #container></ng-container>',
   imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MfeAngularCounterComponent extends MfeAngularComponent<CounterComponentProps>{
+export class MfeAngularCounterComponent extends MfeAngularComponent<AngularCounterProps>{
   readonly configuration: FederationPluginMetadata = MFE_REGISTRY.AngularCounter
 
   @ViewChild('container', { static: true, read: ViewContainerRef })

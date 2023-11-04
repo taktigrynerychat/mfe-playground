@@ -14,6 +14,12 @@ export const MFE_REGISTRY = {
     exposedModule: 'Counter',
     remoteEntry: 'http://localhost:4002/remoteEntry.js'
   },
+  ReactCounter: {
+    element: 'Counter',
+    remoteName: 'mfeReact',
+    exposedModule: 'Counter',
+    remoteEntry: 'http://localhost:4001/remoteEntry.js'
+  },
 } as const satisfies Record<string, FederationPluginMetadata>;
 
 export const HEADER_PROPS: HeaderProps = {
