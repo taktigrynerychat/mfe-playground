@@ -1,5 +1,13 @@
 :host {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  display: grid;
+  grid-template-areas: 'header' 'content';
+  grid-template-rows: auto 1fr;
+  height: 100%;
+  width: 100%;
+  padding: 8px;
+
+  .content {
+    grid-area: content;
+    padding: 24px 0;
+  }
 }

@@ -15,7 +15,7 @@ export type CounterComponentProps = {
   imports: [CommonModule],
 })
 export class MfeAngularCounterComponent extends MfeAngularComponent<CounterComponentProps>{
-  readonly configuration: FederationPluginMetadata = MFE_REGISTRY.AngularCounter;
+  readonly configuration: FederationPluginMetadata = MFE_REGISTRY.AngularCounter
 
   @ViewChild('container', { static: true, read: ViewContainerRef })
   readonly viewContainerRef!: ViewContainerRef;

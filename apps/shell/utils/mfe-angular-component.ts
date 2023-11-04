@@ -22,6 +22,7 @@ type ComponentProps = Record<string, unknown>;
 export abstract class MfeAngularComponent<Component extends ComponentProps> implements AfterViewInit {
   abstract configuration: FederationPluginMetadata;
   abstract viewContainerRef: ViewContainerRef;
+
   private readonly _destroyRef: DestroyRef = inject(DestroyRef);
 
   @HostBinding('class.mfe') private readonly _mfe: boolean = true;

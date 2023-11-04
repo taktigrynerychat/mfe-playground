@@ -1,15 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
 $highlight-mfe: #a800ff;
 
+* {
+  box-sizing: border-box;
+}
+
 html {
   height: 100%;
   margin: 0;
-  box-sizing: border-box;
 }
+
 body {
   font-size: 14px;
   font-family: 'Roboto', sans-serif;
+  height: 100%;
+  margin: 0;
 }
+
 .mfe {
   display: block;
   border: 1px dashed $highlight-mfe;
