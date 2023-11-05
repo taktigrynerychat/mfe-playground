@@ -21,13 +21,25 @@ export const MFE_REGISTRY = {
     exposedModule: 'Counter',
     remoteEntry: 'http://localhost:4001/remoteEntry.js'
   },
+  AngularPubSubFeature: {
+    element: 'PubSubFeatureComponent',
+    remoteName: 'mfeAngular',
+    exposedModule: 'PubSubFeature',
+    remoteEntry: 'http://localhost:4002/remoteEntry.js'
+  },
+  ReactPubSubFeature: {
+    element: 'PubSubFeature',
+    remoteName: 'mfeReact',
+    exposedModule: 'PubSubFeature',
+    remoteEntry: 'http://localhost:4001/remoteEntry.js'
+  },
 } as const satisfies Record<string, FederationPluginMetadata>;
 
 export const HEADER_PROPS: HeaderProps = {
   links: [
     { title: 'Home', link: 'home' },
     { title: 'I/O Showcase', link: 'showcase/input-output' },
-    { title: 'Event Bus Showcase ', link: 'showcase/event-bus' }
+    { title: 'Pub/Sub Showcase', link: 'showcase/pub-sub' }
   ],
   logoUrl: 'https://angular.io/assets/images/logos/angular/angular_solidBlack.svg'
 };
@@ -55,8 +67,8 @@ export const ROOT_ROUTES: Routes = [
         loadComponent: () => import('../components/showcase-input-output/showcase-input-output.component').then(m => m.ShowcaseInputOutputComponent)
       },
       {
-        path: 'event-bus',
-        loadComponent: () => import('../components/showcase-event-bus/showcase-event-bus.component').then(m => m.ShowcaseEventBusComponent)
+        path: 'pub-sub',
+        loadComponent: () => import('../components/showcase-pub-sub/showcase-pub-sub.component').then(m => m.ShowcasePubSubComponent)
       }
     ]
   },
@@ -67,5 +79,5 @@ export const ROOT_ROUTES: Routes = [
 ]
 
 export enum PubSubTopic {
-  CountChange = 'countChange'
+  CustomEvent = 'customEvent'
 }

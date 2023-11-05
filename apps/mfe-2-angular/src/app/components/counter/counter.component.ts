@@ -6,16 +6,11 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './counter.component.html',
-  styleUrls: ['./counter.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CounterComponent {
-  public get log(): string {
-    console.log('check')
-    return 'asdasd'
-  }
   @Input()
-  public readonly count!: number;
+  public count!: number;
 
   @Output()
   public readonly countChange: EventEmitter<number> = new EventEmitter<number>();

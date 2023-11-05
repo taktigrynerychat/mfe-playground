@@ -1,9 +1,3 @@
-declare type Primitive = number | boolean | string;
-
-declare interface NavigationService {
-  navigateTo(commands: Primitive[]): void;
-}
-
 type ID = string;
 type Message = Record<string, any>;
 type OnMessageFn<M extends Record<string, any>> = (message: M) => any;

@@ -5,7 +5,7 @@ import { MfeHeaderComponent } from './components/mfe-header/mfe-header.component
 import { HomeComponent } from './components/home/home.component';
 import { RouterModule } from '@angular/router';
 import { PubSubModule } from './modules/pubsub.module';
-import { ROOT_ROUTES } from './constants';
+import { PubSubTopic, ROOT_ROUTES } from './constants';
 
 @NgModule({
   declarations: [
@@ -13,7 +13,9 @@ import { ROOT_ROUTES } from './constants';
   ],
   imports: [
     RouterModule.forRoot(ROOT_ROUTES),
-    PubSubModule.forTopics(['message']),
+    PubSubModule.forTopics([
+      PubSubTopic.CustomEvent
+    ]),
     BrowserModule,
     MfeHeaderComponent,
     HomeComponent,

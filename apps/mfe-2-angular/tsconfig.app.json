@@ -6,9 +6,10 @@
     "types": []
   },
   "files": [
+    "global.d.ts",
     "src/main.ts",
-    "src/app/exposed/exposed.component.ts",
-    "src/app/components/counter/counter.component.ts"
+    "src/app/components/counter/counter.component.ts",
+    "src/app/components/pub-sub-feature/pub-sub-feature.component.ts",
   ],
   "include": [
     "src/**/*.d.ts"

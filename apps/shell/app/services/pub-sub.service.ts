@@ -19,6 +19,9 @@ export class PubSubService<Topics extends Record<string, Message> = PubSubTopics
   }
 
   public subscribe<TopicKey extends keyof Topics>(topic: TopicKey, onMessage: OnMessageFn<Topics[TopicKey]>): ID {
+    if(!(topic in this._topics)) {
+      throw new Error(`There is no such "${topic as string}" registered`)
+    }
     const subID: ID = uuid();
     this._topics[topic].push(subID);
 
@@ -42,9 +45,6 @@ export class PubSubService<Topics extends Record<string, Message> = PubSubTopics
         if (idx > -1) {
           this._topics[topic].splice(idx, 1);
         }
-        if (this._topics[topic].length === 0) {
-          delete this._topics[topic];
-        }
       }
 
       delete this._subscriberTopics[id];
@@ -52,14 +52,17 @@ export class PubSubService<Topics extends Record<string, Message> = PubSubTopics
   }
 
   public publish<K extends keyof Topics>(topic: K, message: Topics[K]): void {
-    if (topic in this._topics) {
-      const subIDs = this._topics[topic];
-      subIDs.forEach((id) => {
-        if (id in this._subscriberOnMsg) {
-          this._subscriberOnMsg[id](message);
-        }
-      });
+    if(!(topic in this._topics)) {
+      throw new Error(`There is no such "${topic as string}" registered`)
     }
+
+    const subIDs = this._topics[topic];
+    subIDs.forEach((id) => {
+      if (id in this._subscriberOnMsg) {
+        this._subscriberOnMsg[id](message);
+      }
+    });
+
     this._persistedMessages[topic] = message;
   }
 }

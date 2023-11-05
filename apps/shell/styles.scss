@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 $highlight-mfe: #a800ff;
+$button-bg: #ffffff;
 
 * {
   box-sizing: border-box;
@@ -34,5 +35,28 @@ body {
     padding: 1px 4px;
     font-size: 0.7rem;
     border: 1px dashed $highlight-mfe;
+  }
+}
+
+button {
+  cursor: pointer;
+  border-radius: 4px;
+  border: 1px solid #d3d3d3;
+  background-color: $button-bg;
+  min-width: 24px;
+  min-height: 24px;
+
+  &:hover {
+    background: #e7e7e7
+  }
+}
+
+.showcase-page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+
+  & > .mfe {
+    padding: 16px;
   }
 }

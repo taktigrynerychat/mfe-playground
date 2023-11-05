@@ -80,6 +80,7 @@ export abstract class MfeAngularComponent<Component extends ComponentProps> impl
     this._componentMetadata = reflectComponentType(this._mfeComponent);
     this.setInputs();
     this.registerOutputs();
+    this._cdr.markForCheck();
   }
 
   private setInputs(): void {

@@ -13,7 +13,7 @@ import { MfeReactCounterComponent, ReactCounterProps } from './mfe-react-counter
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   host: {
-    class: 'showcase-input-output'
+    class: 'showcase-input-output showcase-page'
   }
 })
 export class ShowcaseInputOutputComponent {

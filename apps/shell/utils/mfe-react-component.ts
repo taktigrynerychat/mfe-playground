@@ -4,16 +4,19 @@ import * as React from 'react'
 import { createRoot, Root } from 'react-dom/client';
 import { FunctionComponent } from 'react';
 import { NavigationService } from '../app/services/navigation.service';
+import { PubSubService } from '../app/services/pub-sub.service';
+import { PubSubTopics } from '../app/models';
 
-type ComposedProps<P> = P & { navigationService?: NavigationService };
+type ComposedProps<P> = P & { navigationService?: NavigationService, pubSubService?: PubSubService };
 @Directive()
 export abstract class MfeReactComponent<Props extends Record<string, unknown> = never> implements AfterViewInit, OnDestroy {
   abstract configuration: FederationPluginMetadata;
-  abstract useNavigation: boolean;
-  abstract useEventBus: boolean;
+  abstract useNavigationService: boolean;
+  abstract usePubSubService: boolean;
 
   private readonly _hostRef: ElementRef = inject(ElementRef);
   private readonly _navigationService: NavigationService = inject(NavigationService);
+  private readonly _pubSubService: PubSubService = inject(PubSubService<PubSubTopics>);
   private readonly _root: Root = createRoot(this._hostRef.nativeElement);
 
   private _props!: Props;
@@ -71,8 +74,12 @@ export abstract class MfeReactComponent<Props extends Record<string, unknown> = 
   private getComposedProps(props: Props): ComposedProps<Props> {
     const composedProps: ComposedProps<Props> = {...(props ?? {})};
 
-    if (this.useNavigation) {
+    if (this.useNavigationService) {
       composedProps.navigationService = this._navigationService;
+    }
+
+    if (this.usePubSubService) {
+      composedProps.pubSubService = this._pubSubService;
     }
 
     return composedProps;

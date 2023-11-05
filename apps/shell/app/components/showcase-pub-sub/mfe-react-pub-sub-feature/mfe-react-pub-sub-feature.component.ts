@@ -4,20 +4,15 @@ import { MfeReactComponent } from '../../../../utils/mfe-react-component';
 import { FederationPluginMetadata } from '../../../../utils/module-federation';
 import { MFE_REGISTRY } from '../../../constants';
 
-export type ReactCounterProps = {
-  count: number;
-  onCountChange: (count: number) => void;
-}
-
 @Component({
-  selector: 'app-mfe-react-counter',
+  selector: 'app-mfe-react-pub-sub-feature',
   standalone: true,
-  template: '',
   imports: [CommonModule],
+  template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MfeReactCounterComponent extends MfeReactComponent<ReactCounterProps> {
-  readonly configuration: FederationPluginMetadata = MFE_REGISTRY.ReactCounter;
-  readonly usePubSubService: boolean = false;
-  readonly useNavigationService: boolean = false;
+export class MfeReactPubSubFeatureComponent extends MfeReactComponent {
+  public readonly configuration: FederationPluginMetadata = MFE_REGISTRY.ReactPubSubFeature;
+  public readonly useNavigationService: boolean = false;
+  public readonly usePubSubService: boolean = true;
 }
