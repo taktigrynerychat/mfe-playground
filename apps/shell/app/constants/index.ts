@@ -1,4 +1,4 @@
-import { FederationPluginMetadata } from '../../utils/module-federation';
+import { FederationPluginMetadata } from '../mfe-utils/module-federation';
 import { HeaderProps } from '../components/mfe-header/mfe-header.component';
 import { Routes } from '@angular/router';
 

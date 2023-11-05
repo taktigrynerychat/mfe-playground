@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AngularCounterProps, MfeAngularCounterComponent } from './mfe-angular-counter/mfe-angular-counter.component';
-import { MfeAngularInputs, MfeAngularOutputs } from '../../../utils/mfe-angular-component';
+import { MfeAngularInputs, MfeAngularOutputs } from '../../mfe-utils/mfe-angular-component';
 import { MfeReactCounterComponent, ReactCounterProps } from './mfe-react-counter/mfe-react-counter.component';
 
 @Component({

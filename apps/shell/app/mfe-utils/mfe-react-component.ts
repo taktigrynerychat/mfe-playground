@@ -3,9 +3,9 @@ import { FederationPluginMetadata, loadRemoteModule } from './module-federation'
 import * as React from 'react'
 import { createRoot, Root } from 'react-dom/client';
 import { FunctionComponent } from 'react';
-import { NavigationService } from '../app/services/navigation.service';
-import { PubSubService } from '../app/services/pub-sub.service';
-import { PubSubTopics } from '../app/models';
+import { NavigationService } from '../services/navigation.service';
+import { PubSubService } from '../services/pub-sub.service';
+import { PubSubTopics } from '../models';
 
 type ComposedProps<P> = P & { navigationService?: NavigationService, pubSubService?: PubSubService };
 @Directive()

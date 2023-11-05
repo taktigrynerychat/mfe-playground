@@ -1,1 +1,12 @@
-<p>home works!</p>
+<h1>Project description</h1>
+<p>This is a simple project designed to showcase the capabilities of micro-frontends and webpack 5 module federation. It consists of the following applications:</p>
+<ul>
+  <li><strong>mfe-1-react (React):</strong> This module exposes a collection of React components.</li>
+  <li><strong>mfe-2-angular (Angular):</strong> In this module, a set of Angular components is made available for remote consumption.</li>
+  <li><strong>shell (Angular):</strong> The host application relies on both mfe-1-react and mfe-2-angular to provide a unified user experience. The app is implemented using Angular, but React is also being used to power up remote react-based components.</li>
+</ul>
+<p>This demonstrates how module federation allows you to combine different technologies within a single application, enhancing your development flexibility and enabling you to leverage the strengths of multiple frameworks.</p>
+
+<p>The main idea behind this implementation was to use remote components in the same way we use local ones. That's why a couple of adapter abstractions were developed to provide a convenient and familiar developer experience for each loaded component.</p>
+
+<p class="highlighted">You can navigate to the <b>I/O Showcase</b> or <b>Pub/Sub Showcase</b> pages to learn more about different ways to interact between different components, whether they are local or remote.</p>

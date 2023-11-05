@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MfeAngularComponent } from '../../../../utils/mfe-angular-component';
-import { FederationPluginMetadata } from '../../../../utils/module-federation';
+import { MfeAngularComponent } from '../../../mfe-utils/mfe-angular-component';
+import { FederationPluginMetadata } from '../../../mfe-utils/module-federation';
 import { MFE_REGISTRY } from '../../../constants';
 
 @Component({

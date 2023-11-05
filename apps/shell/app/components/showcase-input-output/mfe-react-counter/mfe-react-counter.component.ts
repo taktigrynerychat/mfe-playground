@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MfeReactComponent } from '../../../../utils/mfe-react-component';
-import { FederationPluginMetadata } from '../../../../utils/module-federation';
+import { MfeReactComponent } from '../../../mfe-utils/mfe-react-component';
+import { FederationPluginMetadata } from '../../../mfe-utils/module-federation';
 import { MFE_REGISTRY } from '../../../constants';
 
 export type ReactCounterProps = {
