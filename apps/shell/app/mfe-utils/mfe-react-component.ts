@@ -8,10 +8,27 @@ import { PubSubService } from '../services/pub-sub.service';
 import { PubSubTopics } from '../models';
 
 type ComposedProps<P> = P & { navigationService?: NavigationService, pubSubService?: PubSubService };
+
+/**
+ * MfeReactComponent is an abstract Angular directive that serves as a dynamic React-based component loader for micro-frontends.
+ * It provides the ability to load and render remote React components based on a configuration.
+ *
+ * @Directive()
+ * @typeParam Props - The type of properties to be passed to the React component.
+ */
 @Directive()
 export abstract class MfeReactComponent<Props extends Record<string, unknown> = never> implements AfterViewInit, OnDestroy {
+  /**
+   * The configuration for the remote component to load.
+   */
   abstract configuration: FederationPluginMetadata;
+  /**
+   * Indicates whether the NavigationService should be provided to the loaded React component.
+   */
   abstract useNavigationService: boolean;
+  /**
+   * Indicates whether the PubSubService should be provided to the loaded React component.
+   */
   abstract usePubSubService: boolean;
 
   private readonly _hostRef: ElementRef = inject(ElementRef);

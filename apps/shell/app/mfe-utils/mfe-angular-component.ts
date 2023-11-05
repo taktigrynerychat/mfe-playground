@@ -8,19 +8,39 @@ import { FederationPluginMetadata, loadRemoteModule } from './module-federation'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { map, merge, Observable, tap } from 'rxjs';
 
+/**
+ * Generic type for getting only input properties from component model.
+ * @typeParam T - Component model.
+ */
 export type MfeAngularInputs<T> = {
   [K in keyof T as T[K] extends EventEmitter<any> ? never : K]: T[K]
 }
 
+/**
+ * Generic type for getting only output properties from component model.
+ * @typeParam T - Component model.
+ */
 export type MfeAngularOutputs<T> = {
   [K in keyof T]: T[K] extends EventEmitter<infer E> ? { type: K, value: E } : never;
 }[keyof T];
 
 type ComponentProps = Record<string, unknown>;
 
+/**
+ * MfeAngularComponent is an abstract Angular directive that serves as a dynamic Angular-based component loader for micro-frontends.
+ * It provides the ability to load and render remote components based on a configuration.
+
+ * @typeParam Component - The type of component to be loaded dynamically.
+ */
 @Directive()
 export abstract class MfeAngularComponent<Component extends ComponentProps> implements AfterViewInit {
+  /**
+   * The configuration for the remote component to load.
+   */
   abstract configuration: FederationPluginMetadata;
+  /**
+   * The reference to the ViewContainer where the remote component will be rendered.
+   */
   abstract viewContainerRef: ViewContainerRef;
 
   private readonly _destroyRef: DestroyRef = inject(DestroyRef);
