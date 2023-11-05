@@ -100,12 +100,11 @@ export abstract class MfeAngularComponent<Component extends ComponentProps> impl
     this._componentMetadata = reflectComponentType(this._mfeComponent);
     this.setInputs();
     this.registerOutputs();
-    this._cdr.markForCheck();
   }
 
   private setInputs(): void {
-    if (this.componentInstance && this._inputs) {
-      Object.entries(this._inputs).forEach(([key, value]) => {
+    if (this.componentInstance) {
+      this._inputs && Object.entries(this._inputs).forEach(([key, value]) => {
         if (this._componentMetadata?.inputs.some((input) => input.propName === key)) {
           (this.componentInstance as ComponentProps)[key] = value;
         } else {
