@@ -1,31 +1,32 @@
 import { v4 as uuid } from "uuid";
 import { Inject, Injectable } from '@angular/core';
 import { PUB_SUB_TOPICS } from '../modules/pubsub.module';
+import { PubSubTopics } from '../models';
 
 type ID = string;
-type Message = Record<string, unknown>;
-type OnMessageFn = (message: Message) => any;
+type Message = Record<string, any>;
+type OnMessageFn<M extends Record<string, any>> = (message: M) => any;
 
 @Injectable()
-export class PubSubService<Topic extends string = string> {
-  private _topics: Record<Topic, ID[]> = {} as Record<Topic, ID[]>;
-  private _subscriberOnMsg: Record<ID, OnMessageFn> = {};
-  private _subscriberTopics: Record<ID, Topic> = {};
-  private _persistedMessages: Record<Topic, Message> = {} as Record<Topic, Message>;
+export class PubSubService<Topics extends Record<string, Message> = PubSubTopics> {
+  private _topics: Record<keyof Topics, ID[]> = {} as Record<keyof Topics, ID[]>;
+  private _subscriberOnMsg: Record<ID, OnMessageFn<Topics[keyof Topics]>> = {};
+  private _subscriberTopics: Record<ID, keyof Topics> = {};
+  private _persistedMessages: Record<keyof Topics, Topics[keyof Topics]> = {} as Record<keyof Topics, Topics[keyof Topics]>;
 
-  constructor(@Inject(PUB_SUB_TOPICS) private readonly _registeredTopics: Topic[]) {
+  constructor(@Inject(PUB_SUB_TOPICS) private readonly _registeredTopics: (keyof Topics)[]) {
     this._registeredTopics.forEach(topic => this._topics[topic] = []);
   }
 
-  public subscribe(topic: Topic, onMessage: OnMessageFn): ID {
+  public subscribe<TopicKey extends keyof Topics>(topic: TopicKey, onMessage: OnMessageFn<Topics[TopicKey]>): ID {
     const subID: ID = uuid();
     this._topics[topic].push(subID);
 
-    this._subscriberOnMsg[subID] = onMessage;
+    this._subscriberOnMsg[subID] = onMessage as OnMessageFn<Topics[keyof Topics]>;
     this._subscriberTopics[subID] = topic;
 
     if (topic in this._persistedMessages) {
-      onMessage(this._persistedMessages[topic]);
+      onMessage(this._persistedMessages[topic] as Topics[TopicKey]);
     }
 
     return subID;
@@ -50,7 +51,7 @@ export class PubSubService<Topic extends string = string> {
     }
   }
 
-  public publish(topic: Topic, message: Record<string, unknown>) {
+  public publish<K extends keyof Topics>(topic: K, message: Topics[K]): void {
     if (topic in this._topics) {
       const subIDs = this._topics[topic];
       subIDs.forEach((id) => {

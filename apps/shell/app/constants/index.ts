@@ -67,5 +67,5 @@ export const ROOT_ROUTES: Routes = [
 ]
 
 export enum PubSubTopic {
-  Message = 'message'
+  CountChange = 'countChange'
 }
