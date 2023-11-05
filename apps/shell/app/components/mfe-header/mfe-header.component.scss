@@ -1,0 +1,18 @@
+.mfe-header {
+  grid-area: header;
+  min-height: 60px;
+
+  & > header {
+    background: #ffe3e6;
+    & li {
+      font-weight: 600;
+      &:hover {
+        color: #70131d;
+      }
+    }
+
+    & ul {
+      gap: 25px
+    }
+  }
+}

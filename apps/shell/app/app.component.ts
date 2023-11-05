@@ -1,24 +1,13 @@
-import { Component } from '@angular/core';
-import { MfeAngularOutputs } from '../utils/mfe-angular-component';
-import { MfeTwoTargetComponent } from './components/mfe-two/mfe-two.component';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { HeaderProps } from './components/mfe-header/mfe-header.component';
+import { HEADER_PROPS } from './constants';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  props = {name: 'Vlad', surname: 'Rusakov'};
-  counter = 0;
-  public updateName(): void {
-    this.props = { ...this.props, name: `Vlad ${++this.counter}`};
-  }
-
-  onOutput(event: MfeAngularOutputs<MfeTwoTargetComponent>): void {
-    switch (event.type) {
-      case 'onClick': {
-        console.log(event.value)
-      }
-    }
-  }
+  public readonly headerProps: HeaderProps = HEADER_PROPS;
 }

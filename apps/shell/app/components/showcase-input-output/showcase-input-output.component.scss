@@ -1,0 +1,26 @@
+.showcase-input-output {
+  max-width: 440px;
+
+  .counter {
+    padding: 16px;
+
+    button {
+      &:not(:last-child) {
+        margin-right: 12px;
+      }
+    }
+  }
+
+  .counter-control {
+    justify-self: center;
+    display: flex;
+    align-items: center;
+
+    width: 100px;
+    justify-content: space-between;
+
+    span {
+      font-weight: 600;
+    }
+  }
+}

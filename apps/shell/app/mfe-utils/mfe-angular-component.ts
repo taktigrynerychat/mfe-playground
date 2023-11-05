@@ -1,5 +1,5 @@
 import {
-  AfterViewInit, ComponentMirror, ComponentRef, DestroyRef,
+  AfterViewInit, ChangeDetectorRef, ComponentMirror, ComponentRef, DestroyRef,
   Directive, EventEmitter,
   HostBinding, inject, Input, Output, reflectComponentType,
   ViewContainerRef
@@ -8,20 +8,41 @@ import { FederationPluginMetadata, loadRemoteModule } from './module-federation'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { map, merge, Observable, tap } from 'rxjs';
 
+/**
+ * Generic type for getting only input properties from component model.
+ * @typeParam T - Component model.
+ */
 export type MfeAngularInputs<T> = {
-  [K in keyof T as T[K] extends EventEmitter<unknown> ? never : K]?: T[K]
+  [K in keyof T as T[K] extends EventEmitter<any> ? never : K]: T[K]
 }
 
+/**
+ * Generic type for getting only output properties from component model.
+ * @typeParam T - Component model.
+ */
 export type MfeAngularOutputs<T> = {
   [K in keyof T]: T[K] extends EventEmitter<infer E> ? { type: K, value: E } : never;
 }[keyof T];
 
 type ComponentProps = Record<string, unknown>;
 
+/**
+ * MfeAngularComponent is an abstract Angular directive that serves as a dynamic Angular-based component loader for micro-frontends.
+ * It provides the ability to load and render remote components based on a configuration.
+
+ * @typeParam Component - The type of component to be loaded dynamically.
+ */
 @Directive()
 export abstract class MfeAngularComponent<Component extends ComponentProps> implements AfterViewInit {
+  /**
+   * The configuration for the remote component to load.
+   */
   abstract configuration: FederationPluginMetadata;
+  /**
+   * The reference to the ViewContainer where the remote component will be rendered.
+   */
   abstract viewContainerRef: ViewContainerRef;
+
   private readonly _destroyRef: DestroyRef = inject(DestroyRef);
 
   @HostBinding('class.mfe') private readonly _mfe: boolean = true;
@@ -31,6 +52,7 @@ export abstract class MfeAngularComponent<Component extends ComponentProps> impl
   private _componentRef!: ComponentRef<Component>;
   private _componentMetadata!: ComponentMirror<Component> | null;
   private _inputs!: MfeAngularInputs<Component>;
+  private _cdr!: ChangeDetectorRef;
 
   @Output() outputs: EventEmitter<MfeAngularOutputs<Component>> = new EventEmitter();
 
@@ -74,9 +96,11 @@ export abstract class MfeAngularComponent<Component extends ComponentProps> impl
   private render(): void {
     this.viewContainerRef.clear();
     this._componentRef = this.viewContainerRef.createComponent(this._mfeComponent);
+    this._cdr = this._componentRef.injector.get(ChangeDetectorRef);
     this._componentMetadata = reflectComponentType(this._mfeComponent);
     this.setInputs();
     this.registerOutputs();
+    this._cdr.markForCheck();
   }
 
   private setInputs(): void {
@@ -88,7 +112,7 @@ export abstract class MfeAngularComponent<Component extends ComponentProps> impl
           console.warn(`There is no "${key}" property in the target ${this.configuration.element}`);
         }
       })
-      this._componentRef.changeDetectorRef.markForCheck();
+      this._cdr.markForCheck();
     }
   }
 

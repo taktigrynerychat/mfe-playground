@@ -54,7 +54,10 @@ module.exports = {
       name: "mfeReact",
       filename: "remoteEntry.js",
       exposes: {
-        App: "./app/App"
+        App: "./app/App",
+        Header: "./app/components/Header",
+        Counter: "./app/components/Counter",
+        PubSubFeature: "./app/components/PubSubFeature",
       },
       shared: {
         "react": {
@@ -64,13 +67,17 @@ module.exports = {
         "react-dom": {
           singleton: true,
           eager: true
-        }
+        },
+        "styled-components": {
+          singleton: true,
+          eager: true,
+        },
       }
     }),
   ],
   devServer: {
-    open: true,
     port: 4001,
+    hot: true,
     headers: {
       "Access-Control-Allow-Origin": "http://localhost:4000"
     },

@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "jsx": "react",
+    "types": ["node"],
+    "jsx": "react-jsx",
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
@@ -24,4 +25,6 @@
       "dom"
     ]
   },
+  "include": ["app/**/*.js", "app/**/*.jsx", "app/**/*.ts", "app/**/*.tsx"],
+  "files": ["main.tsx", "global.d.ts"]
 }
