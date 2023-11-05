@@ -22,4 +22,6 @@ export type HeaderProps = {
 })
 export class MfeHeaderComponent extends MfeReactComponent<HeaderProps> {
   readonly configuration: FederationPluginMetadata = MFE_REGISTRY.Header;
+  readonly useNavigation: boolean = true;
+  readonly useEventBus: boolean = false;
 }

@@ -17,7 +17,7 @@ import { MfeReactCounterComponent, ReactCounterProps } from './mfe-react-counter
   }
 })
 export class ShowcaseInputOutputComponent {
-  constructor(private readonly cdr: ChangeDetectorRef) {}
+  constructor(private readonly _cdr: ChangeDetectorRef) {}
 
   public angularCounterProps: MfeAngularInputs<AngularCounterProps> = {
     count: 0,
@@ -42,6 +42,6 @@ export class ShowcaseInputOutputComponent {
 
   private onReactCounterChange(count: number): void {
     this.setReactCounter(count);
-    this.cdr.markForCheck();
+    this._cdr.markForCheck();
   }
 }

@@ -5,9 +5,9 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class NavigationService {
-  constructor(private readonly router: Router) {}
+  constructor(private readonly _router: Router) {}
 
   public navigateTo(commands: Primitive[]): void {
-    this.router.navigate(commands);
+    this._router.navigate(commands);
   }
 }

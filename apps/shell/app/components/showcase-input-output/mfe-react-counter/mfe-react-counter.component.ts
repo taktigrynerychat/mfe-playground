@@ -18,4 +18,6 @@ export type ReactCounterProps = {
 })
 export class MfeReactCounterComponent extends MfeReactComponent<ReactCounterProps> {
   readonly configuration: FederationPluginMetadata = MFE_REGISTRY.ReactCounter;
+  readonly useEventBus: boolean = false;
+  readonly useNavigation: boolean = false;
 }

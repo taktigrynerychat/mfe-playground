@@ -1,54 +1,22 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppComponent } from './app.component';
 import { MfeHeaderComponent } from './components/mfe-header/mfe-header.component';
 import { HomeComponent } from './components/home/home.component';
-import { RouterModule, Routes } from '@angular/router';
-
-const rootRoutes: Routes = [
-  {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
-  },
-  {
-    path: 'home',
-    loadComponent: () => import('./components/home/home.component').then(m => m.HomeComponent)
-  },
-  {
-    path: 'showcase',
-    children: [
-      {
-        path: '',
-        redirectTo: 'input-output',
-        pathMatch: 'full'
-      },
-      {
-        path: 'input-output',
-        loadComponent: () => import('./components/showcase-input-output/showcase-input-output.component').then(m => m.ShowcaseInputOutputComponent)
-      },
-      {
-        path: 'event-bus',
-        loadComponent: () => import('./components/showcase-event-bus/showcase-event-bus.component').then(m => m.ShowcaseEventBusComponent)
-      }
-    ]
-  },
-  {
-    path: '**',
-    redirectTo: 'home'
-  }
-]
+import { RouterModule } from '@angular/router';
+import { PubSubModule } from './modules/pubsub.module';
+import { ROOT_ROUTES } from './constants';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
-    RouterModule.forRoot(rootRoutes),
+    RouterModule.forRoot(ROOT_ROUTES),
+    PubSubModule.forTopics(['message']),
     BrowserModule,
     MfeHeaderComponent,
-    HomeComponent
+    HomeComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]
